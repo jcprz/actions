@@ -1,0 +1,53 @@
+name: 'Slack Notification Action'
+description: 'Send a notification to Slack'
+inputs:
+  slack-webhook-url:
+    description: 'Slack Webhook URL'
+    required: true
+  github-job:
+    description: 'GitHub Job'
+    required: true
+  github-actor:
+    description: 'GitHub Actor'
+    required: true
+  git-sha:
+    description: 'Git Commit SHA'
+    required: true
+  repository-name:
+    description: 'Repository Name'
+    required: true
+  environment:
+    description: 'Environment'
+    required: true
+  status:
+    description: 'Status (started, success, failure)'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Notify Slack
+      run: |
+        if [ "${{ inputs.status }}" == "STARTED" ]; then
+          COLOR="ffc500" # green
+        elif [ "${{ inputs.status }}" == "SUCCESS" ]; then
+          COLOR="09db09" # red
+        elif [ "${{ inputs.status }}" == "FAILED" ]; then
+          COLOR="ff0006" # red
+        else
+          COLOR="439FE0" # blue
+        fi
+
+        curl ${{ inputs.slack-webhook-url }} \
+          --request POST \
+          --header 'Content-Type: application/json' --data \
+            '{
+              "attachments": [{
+                    "color": "'"$COLOR"'",
+                    "fields": [{
+                        "title": "'"${{ inputs.status }}"': Job '${{ inputs.github-job }}'",
+                        "short": false,
+                        "value": "```JOB INFO:\n'$(printf '*%.0s' {1..50})'\nTriggered by: ${{inputs.github-actor}}\nGit Commit ID: ${{ inputs.git-sha }}\nApplication: ${{ inputs.repository-name }}\nEnvironment: ${{ inputs.environment }}\n'$(printf '*%.0s' {1..50})'```"
+                    }]
+                }]
+            }'
+      shell: bash

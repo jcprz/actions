@@ -1,0 +1,17 @@
+name: 'Generate Git SHA'
+description: 'A custom action to generate Git short SHA'
+
+outputs:
+  git_short_sha:
+    description: 'Generated Git short SHA'
+    value: ${{ steps.generate_sha.outputs.git_short_sha }}
+
+runs:
+  using: 'composite'
+  steps:
+    - id: generate_sha
+      run: |
+        GIT_SHORT_SHA=$(echo ${GITHUB_SHA} | cut -c1-8)
+        echo "git_short_sha=${GIT_SHORT_SHA}" >> $GITHUB_ENV
+        echo "::set-output name=git_short_sha::${GIT_SHORT_SHA}"
+      shell: bash

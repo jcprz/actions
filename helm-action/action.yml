@@ -1,0 +1,38 @@
+name: "Helm Action"
+description: "Custom action to manage Helm commands"
+inputs:
+  command:
+    description: "The Helm command to run"
+    required: true
+  chart_path:
+    description: "Path to the Helm chart"
+    required: true
+  values_file:
+    description: "Path to the values file for the Helm chart"
+    required: true
+  release_name:
+    description: "Name of the Helm release"
+    required: false
+  namespace:
+    description: "Kubernetes namespace for the Helm release"
+    required: false
+  image_tag:
+    description: "Docker image tag for the Helm release"
+    required: false
+  env:
+    description: "Environment for the Helm release"
+    required: false
+  atomic_timeout:
+    description: "Timeout for Helm atomic command"
+    required: false
+  dry_run:
+    description: "Whether to run the command in dry-run mode"
+    required: false
+    default: "false"
+runs:
+  using: "composite"
+  steps:
+    - run: |
+        chmod +x ${{ github.action_path }}/main.sh
+        ${{ github.action_path }}/main.sh "${{ inputs.command }}" "${{ inputs.chart_directory }}" "${{ inputs.env }}" "${{ inputs.repository_name }}" "${{ inputs.git_short_sha }}" "${{ inputs.atomic_timeout }}" "${{ inputs.dry_run }}"
+      shell: bash

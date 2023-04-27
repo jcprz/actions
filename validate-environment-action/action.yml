@@ -1,0 +1,22 @@
+name: 'Environment Validator'
+description: 'A custom action that performs environment validations'
+
+inputs:
+  env:
+    description: 'Environment name'
+    required: true
+  repository_name:
+    description: 'Repository name'
+    required: true
+  create_if_not_exists:
+    description: 'Create secret if it does not exist'
+    required: false
+    default: 'false'
+
+runs:
+  using: 'composite'
+  steps:
+    - run: |
+        chmod +x ${{ github.action_path }}/main.sh
+        ${{ github.action_path }}/main.sh "${{ inputs.env }}" "${{ inputs.repository_name }}" "${{ inputs.create_if_not_exists }}"
+      shell: bash
