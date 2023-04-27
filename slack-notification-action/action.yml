@@ -28,6 +28,8 @@ runs:
     - name: Notify Slack
       run: |
         TIMESTAMP=$(date +%FT%T%Z)
+        ACTION_URL="https://github.com/${{ inputs.repository-name }}/actions/runs/${{ github.run_id }}"
+
         if [ "${{ inputs.status }}" == "STARTED" ]; then
           COLOR="#ffc500" # yellow
           STATUS_TEXT=":arrow_forward: Started"
@@ -51,7 +53,7 @@ runs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "'"${STATUS_TEXT}"': Job '${{ inputs.github-job }}'"
+                    "text": "'"${STATUS_TEXT}"': '${{ inputs.github-job }}' Job"
                   }
                 },
                 {
@@ -72,6 +74,10 @@ runs:
                     {
                       "type": "mrkdwn",
                       "text": "*Environment:*\n${{ inputs.environment }}"
+                    }
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Action URL:*\n<${ACTION_URL}|View Action>"
                     }
                   ],
                   "accessory": {
