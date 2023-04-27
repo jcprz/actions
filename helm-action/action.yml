@@ -34,5 +34,5 @@ runs:
   steps:
     - run: |
         chmod +x ${{ github.action_path }}/main.sh
-        ${{ github.action_path }}/main.sh "${{ inputs.command }}" "${{ inputs.chart_path }}" "${{ inputs.env }}" "${{ inputs.repository_name }}" "${{ inputs.git_short_sha }}" "${{ inputs.atomic_timeout }}" "${{ inputs.dry_run }}"
+        ${{ github.action_path }}/main.sh "${{ inputs.command }}" "${{ inputs.chart_path }}" "${{ inputs.environment }}" "${{ inputs.repository_name }}" "${{ inputs.git_short_sha }}" "${{ inputs.atomic_timeout }}" "${{ inputs.dry_run }}"
       shell: bash
