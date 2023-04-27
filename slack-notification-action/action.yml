@@ -77,7 +77,7 @@ runs:
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "*Action URL:*\n<${{ACTION_URL}}|View Action>"
+                      "text": "*Action URL:*\n<${ACTION_URL}|View Action>"
                     }
                   ],
                   "accessory": {
