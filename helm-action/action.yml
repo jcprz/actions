@@ -16,7 +16,7 @@ inputs:
     required: true
   values-file:
     description: "The values file for the given Helm release"
-    required: true    
+    required: false    
   environment:
     description: "Environment for the Helm release"
     required: false    
