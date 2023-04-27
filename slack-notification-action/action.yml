@@ -28,7 +28,6 @@ runs:
     - name: Notify Slack
       run: |
         TIMESTAMP=$(date +%FT%T%Z)
-        ACTION_URL="https://github.com/${{ inputs.repository-name }}/actions/runs/${{ github.run_id }}"
 
         if [ "${{ inputs.status }}" == "STARTED" ]; then
           COLOR="#ffc500" # yellow
@@ -39,6 +38,9 @@ runs:
         elif [ "${{ inputs.status }}" == "FAILED" ]; then
           COLOR="#ff0006" # red
           STATUS_TEXT=":x: Failed"
+        elif [ "${{ inputs.status }}" == "CANCELLED" ]; then
+          COLOR="#ff0006" # red
+          STATUS_TEXT=":x: Cancelled"
         else
           COLOR="#439FE0" # blue
           STATUS_TEXT=":information_source: Info"
