@@ -7,9 +7,9 @@ inputs:
   chart_path:
     description: "Path to the Helm chart"
     required: true
-  values_file:
-    description: "Path to the values file for the Helm chart"
-    required: true
+  # values_file:
+  #   description: "Path to the values file for the Helm chart"
+  #   required: true
   release_name:
     description: "Name of the Helm release"
     required: false
@@ -19,7 +19,7 @@ inputs:
   image_tag:
     description: "Docker image tag for the Helm release"
     required: false
-  env:
+  environment:
     description: "Environment for the Helm release"
     required: false
   atomic_timeout:

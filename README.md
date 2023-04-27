@@ -20,7 +20,7 @@ This action validates the Kubernetes environment and optionally creates a Kubern
 
 ```yaml
 - name: Validate Environment
-  uses: Xhinola-SRL/actions/validate-environment@main
+  uses: jcprz/actions/validate-environment@main
   with:
     env: ${{ env.ENV }}
     repository_name: ${{ env.REPOSITORY_NAME }}
@@ -36,7 +36,7 @@ This action generates a short Git SHA (8 characters) from the current commit.
 ```yaml
 - name: Generate Git SHA
   id: git_sha
-  uses: Xhinola-SRL/actions/generate-git-sha@main
+  uses: jcprz/actions/generate-git-sha@main
 
 - name: Use Git SHA
   run: |
@@ -58,21 +58,21 @@ This custom action allows you to run Helm commands such as lint, dependency upda
 
 ```yaml
 - name: Helm Lint
-  uses: Xhinola-SRL/actions/helm-action@main
+  uses: jcprz/actions/helm-action@main
   with:
     command: lint
     chart_path: helm/${{ env.REPOSITORY_NAME }}
     values_file: helm/${{ env.REPOSITORY_NAME }}/values-${{ env.ENV }}.yaml
 
 - name: Helm Dependency Update
-  uses: Xhinola-SRL/actions/helm-action@main
+  uses: jcprz/actions/helm-action@main
   with:
     command: dependency_update
     chart_path: helm/${{ env.REPOSITORY_NAME }}
     values_file: helm/${{ env.REPOSITORY_NAME }}/values-${{ env.ENV }}.yaml
 
 - name: Helm Upgrade
-  uses: Xhinola-SRL/actions/helm-action@main
+  uses: jcprz/actions/helm-action@main
   with:
     command: upgrade
     chart_path: helm/${{ env.REPOSITORY_NAME }}

@@ -15,13 +15,13 @@ fi
 
 case "${COMMAND}" in
   "dependency_update")
-    helm dependency update "${CHART_DIRECTORY}" ${DRY_RUN_OPTION}
+    echo "helm dependency update "${CHART_DIRECTORY}" ${DRY_RUN_OPTION}"
     ;;
   "lint")
-    helm lint --values "${CHART_DIRECTORY}/values-${ENV}.yaml" "${CHART_DIRECTORY}" ${DRY_RUN_OPTION}
+    echo "helm lint --values "${CHART_DIRECTORY}/values-${ENV}.yaml" "${CHART_DIRECTORY}" ${DRY_RUN_OPTION}"
     ;;
   "upgrade")
-    helm upgrade --install --atomic --timeout "${ATOMIC_TIMEOUT}" ${DRY_RUN_OPTION} \
+    echo helm upgrade --install --atomic --timeout "${ATOMIC_TIMEOUT}" ${DRY_RUN_OPTION} \
       --values "${CHART_DIRECTORY}/values-${ENV}.yaml" \
       --set-string image.tag="${GIT_SHORT_SHA}" \
       --set-string env.ENV="${ENV}" \
