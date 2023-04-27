@@ -4,16 +4,19 @@ inputs:
   command:
     description: "The Helm command to run"
     required: true
-  atomic_timeout:
+  timeout_in_mins:
     description: "Timeout for Helm atomic command"
     required: false
-    default: "3m"
+    default: "3"
   repository_name:
-    description: "Path to the Helm chart"
+    description: "The name of the repository"
     required: true
-  chart_directory:
-    description: "The name of the chart directory"
+  helm_dir:
+    description: "The name of the Helm directory where charts are"
     required: true
+  values_file:
+    description: "The values file for the given Helm release"
+    required: true    
   environment:
     description: "Environment for the Helm release"
     required: false    
@@ -26,14 +29,31 @@ inputs:
   image_tag:
     description: "Docker image tag for the Helm release"
     required: false
+  create_namespace:
+    description: "Whether to create the namespace if not exists"
+    required: false
+    default: "false"
+  set_flag:
+    description: "Comma-separated list of key-value pairs for the Helm --set flag"
+    required: false
+    default: ""
+  set_string_flag:
+    description: "Comma-separated list of key-value pairs for the Helm --set-string flag"
+    required: false
+    default: ""
   dry_run:
     description: "Whether to run the command in dry-run mode"
     required: false
     default: "false"
+  is_debug:
+    description: "Whether to run the command in debug mode"
+    required: false
+    default: "false"
+
 runs:
   using: "composite"
   steps:
     - run: |
         chmod +x ${{ github.action_path }}/main.sh
-        ${{ github.action_path }}/main.sh "${{ inputs.command }}" "${{ inputs.atomic_timeout }}" "${{ inputs.repository_name }}" "${{ inputs.chart_directory }}" "${{ inputs.environment }}" "${{ inputs.release_name }}" "${{ inputs.namespace }}" "${{ inputs.image_tag }}" "${{ inputs.dry_run }}" 
+        ${{ github.action_path }}/main.sh "${{ inputs.command }}" "${{ inputs.timeout_in_mins }}" "${{ inputs.repository_name }}" "${{ inputs.helm_dir }}" "${{ inputs.values_file }}" "${{ inputs.environment }}" "${{ inputs.release_name }}" "${{ inputs.namespace }}" "${{ inputs.image_tag }}" "${{ inputs.dry_run }}" "${{ inputs.is_debug }}" "${{ inputs.create_namespace }}" "${{ inputs.set_flag }}" "${{ inputs.set_string_flag }}"
       shell: bash
