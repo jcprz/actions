@@ -8,7 +8,10 @@ inputs:
     description: "Timeout for Helm atomic command"
     required: false
     default: "3m"
-  chart_path:
+  chart_directory:
+    description: "The name of the chart directory"
+    required: true
+  repository_name:
     description: "Path to the Helm chart"
     required: true
   image_tag:
@@ -17,7 +20,6 @@ inputs:
   environment:
     description: "Environment for the Helm release"
     required: false
-
   dry_run:
     description: "Whether to run the command in dry-run mode"
     required: false
@@ -27,5 +29,5 @@ runs:
   steps:
     - run: |
         chmod +x ${{ github.action_path }}/main.sh
-        ${{ github.action_path }}/main.sh "${{ inputs.command }}" "${{ inputs.atomic_timeout }}" "${{ inputs.chart_path }}" "${{ inputs.environment }}" "${{ inputs.repository_name }}" "${{ inputs.image_tag }}" "${{ inputs.dry_run }}" 
+        ${{ github.action_path }}/main.sh "${{ inputs.command }}" "${{ inputs.atomic_timeout }}" "${{ inputs.repository_name }}" "${{ inputs.chart_directory }}" "${{ inputs.environment }}" "${{ inputs.repository_name }}" "${{ inputs.image_tag }}" "${{ inputs.dry_run }}" 
       shell: bash
