@@ -27,7 +27,11 @@ runs:
   steps:
     - name: Notify Slack
       run: |
-        TIMESTAMP=$(date -u -d "@${{ github.event.timestamp }}" "+%Y-%m-%d %H:%M:%S UTC")
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+          TIMESTAMP=$(date +%s)
+        else
+          TIMESTAMP=$(date '+%s')
+        fi
         if [ "${{ inputs.status }}" == "STARTED" ]; then
           COLOR="#ffc500" # yellow
           STATUS_TEXT=":arrow_forward: Started"
