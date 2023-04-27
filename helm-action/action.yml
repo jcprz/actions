@@ -4,48 +4,48 @@ inputs:
   command:
     description: "The Helm command to run"
     required: true
-  timeout_in_mins:
+  timeout-in-mins:
     description: "Timeout for Helm atomic command"
     required: false
     default: "3"
-  repository_name:
+  repository-name:
     description: "The name of the repository"
     required: true
-  helm_dir:
+  helm-dir:
     description: "The name of the Helm directory where charts are"
     required: true
-  values_file:
+  values-file:
     description: "The values file for the given Helm release"
     required: true    
   environment:
     description: "Environment for the Helm release"
     required: false    
-  release_name:
+  release-name:
     description: "Helm release name"
     required: false    
   namespace:
     description: "Namespace for the Helm release"
     required: false  
-  image_tag:
+  image-tag:
     description: "Docker image tag for the Helm release"
     required: false
-  create_namespace:
+  create-namespace:
     description: "Whether to create the namespace if not exists"
     required: false
     default: "false"
-  set_flag:
+  set-flag:
     description: "Comma-separated list of key-value pairs for the Helm --set flag"
     required: false
     default: ""
-  set_string_flag:
+  set-string-flag:
     description: "Comma-separated list of key-value pairs for the Helm --set-string flag"
     required: false
     default: ""
-  dry_run:
+  dry-run:
     description: "Whether to run the command in dry-run mode"
     required: false
     default: "false"
-  is_debug:
+  is-debug:
     description: "Whether to run the command in debug mode"
     required: false
     default: "false"
@@ -55,5 +55,5 @@ runs:
   steps:
     - run: |
         chmod +x ${{ github.action_path }}/main.sh
-        ${{ github.action_path }}/main.sh "${{ inputs.command }}" "${{ inputs.timeout_in_mins }}" "${{ inputs.repository_name }}" "${{ inputs.helm_dir }}" "${{ inputs.values_file }}" "${{ inputs.environment }}" "${{ inputs.release_name }}" "${{ inputs.namespace }}" "${{ inputs.image_tag }}" "${{ inputs.dry_run }}" "${{ inputs.is_debug }}" "${{ inputs.create_namespace }}" "${{ inputs.set_flag }}" "${{ inputs.set_string_flag }}"
+        ${{ github.action_path }}/main.sh "${{ inputs.command }}" "${{ inputs.timeout-in-mins }}" "${{ inputs.repository-name }}" "${{ inputs.helm-dir }}" "${{ inputs.values-file }}" "${{ inputs.environment }}" "${{ inputs.release-name }}" "${{ inputs.namespace }}" "${{ inputs.image-tag }}" "${{ inputs.dry-run }}" "${{ inputs.is-debug }}" "${{ inputs.create-namespace }}" "${{ inputs.set-flag }}" "${{ inputs.set-string-flag }}"
       shell: bash
