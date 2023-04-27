@@ -1,11 +1,12 @@
 #!/bin/bash
 COMMAND=$1
-CHART_DIRECTORY=$2
-ENV=$3
-REPOSITORY_NAME=$4
-GIT_SHORT_SHA=$5
-ATOMIC_TIMEOUT=$6
+ATOMIC_TIMEOUT=$2
+CHART_DIRECTORY=$3
+ENV=$4
+REPOSITORY_NAME=$5
+IMAGE_TAG=$6
 DRY_RUN_OPTION=$7
+
 
 if [ "${DRY_RUN_OPTION}" == "true" ]; then
   DRY_RUN_OPTION="--dry-run"
@@ -21,12 +22,12 @@ case "${COMMAND}" in
     echo "helm lint --values "${CHART_DIRECTORY}/values-${ENV}.yaml" "${CHART_DIRECTORY}" ${DRY_RUN_OPTION}"
     ;;
   "upgrade")
-    echo helm upgrade --install --atomic --timeout "${ATOMIC_TIMEOUT}" ${DRY_RUN_OPTION} \
+    echo helm upgrade --install --atomic --timeout "${ATOMIC_TIMEOUT}" \
       --values "${CHART_DIRECTORY}/values-${ENV}.yaml" \
-      --set-string image.tag="${GIT_SHORT_SHA}" \
+      --set-string image.tag="${IMAGE_TAG}" \
       --set-string env.ENV="${ENV}" \
       "${ENV}-${REPOSITORY_NAME}" \
-      --namespace="${ENV}-apps" "${CHART_DIRECTORY}"
+      --namespace="${ENV}-apps" "${CHART_DIRECTORY}" ${DRY_RUN_OPTION}
     ;;
   *)
     echo "Invalid command: ${COMMAND}"
