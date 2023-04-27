@@ -28,26 +28,70 @@ runs:
     - name: Notify Slack
       run: |
         if [ "${{ inputs.status }}" == "STARTED" ]; then
-          COLOR="ffc500" # green
+          COLOR="#ffc500" # yellow
+          STATUS_TEXT=":arrow_forward: Started"
         elif [ "${{ inputs.status }}" == "SUCCESS" ]; then
-          COLOR="09db09" # red
+          COLOR="#09db09" # green
+          STATUS_TEXT=":white_check_mark: Success"
         elif [ "${{ inputs.status }}" == "FAILED" ]; then
-          COLOR="ff0006" # red
+          COLOR="#ff0006" # red
+          STATUS_TEXT=":x: Failed"
         else
-          COLOR="439FE0" # blue
+          COLOR="#439FE0" # blue
+          STATUS_TEXT=":information_source: Info"
         fi
 
         curl ${{ inputs.slack-webhook-url }} \
           --request POST \
           --header 'Content-Type: application/json' --data \
             '{
-              "attachments": [{
-                    "color": "'"$COLOR"'",
-                    "fields": [{
-                        "title": "'"${{ inputs.status }}"': Job '${{ inputs.github-job }}'",
-                        "short": false,
-                        "value": "```JOB INFO:\n'$(printf '*%.0s' {1..50})'\nTriggered by: ${{inputs.github-actor}}\nGit Commit ID: ${{ inputs.git-sha }}\nApplication: ${{ inputs.repository-name }}\nEnvironment: ${{ inputs.environment }}\n'$(printf '*%.0s' {1..50})'```"
-                    }]
-                }]
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "'"${STATUS_TEXT}"': Job '${{ inputs.github-job }}'"
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Triggered by:*\n${{inputs.github-actor}}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Git Commit ID:*\n${{ inputs.git-sha }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Application:*\n${{ inputs.repository-name }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Environment:*\n${{ inputs.environment }}"
+                    }
+                  ],
+                  "accessory": {
+                    "type": "image",
+                    "image_url": "https://avatars.githubusercontent.com/${{inputs.github-actor}}",
+                    "alt_text": "avatar"
+                  }
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "context",
+                  "elements": [
+                    {
+                      "type": "mrkdwn",
+                      "text": ":clock3: Timestamp: <!date^${{ github.run_timestamp }}^{date_num} {time_secs}|Date not available>"
+                    }
+                  ]
+                }
+              ]
             }'
       shell: bash
+
