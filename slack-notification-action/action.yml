@@ -86,7 +86,7 @@ runs:
                   ],
                   "accessory": {
                     "type": "image",
-                    "image_url": "https://avatars.githubusercontent.com/${{inputs.github-actor}}?s=32",
+                    "image_url": "https://avatars.githubusercontent.com/${{inputs.github-actor}}",
                     "alt_text": "avatar"
                   }
                 },
