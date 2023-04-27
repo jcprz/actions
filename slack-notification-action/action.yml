@@ -27,6 +27,7 @@ runs:
   steps:
     - name: Notify Slack
       run: |
+        TIMESTAMP=$(date -u -d "@${{ github.event.timestamp }}" "+%Y-%m-%d %H:%M:%S UTC")
         if [ "${{ inputs.status }}" == "STARTED" ]; then
           COLOR="#ffc500" # yellow
           STATUS_TEXT=":arrow_forward: Started"
@@ -87,7 +88,7 @@ runs:
                   "elements": [
                     {
                       "type": "mrkdwn",
-                      "text": ":clock3: Timestamp: <!date^${{ github.run_timestamp }}^{date_num} {time_secs}|Date not available>"
+                      "text": ":clock3: Timestamp: '"${TIMESTAMP}"'"
                     }
                   ]
                 }
