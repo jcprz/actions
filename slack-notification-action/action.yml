@@ -77,7 +77,11 @@ runs:
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "*Action URL:*\n<${ACTION_URL}|View Action>"
+                      "text": "*Ref:*\n${{ github.ref }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Action URL:*\n${ACTION_URL}|View Action"
                     }
                   ],
                   "accessory": {
