@@ -81,7 +81,7 @@ runs:
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "*Action URL:*\n${ACTION_URL}|View Action"
+                      "text": "*Action URL:*\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action>"
                     }
                   ],
                   "accessory": {
